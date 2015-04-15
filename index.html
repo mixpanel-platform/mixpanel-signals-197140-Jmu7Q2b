@@ -46,12 +46,12 @@
       var renderTable = function(results) {
         values = results.values();
         if (typeof eventTableData === 'undefined') {
-          eventTable.MPTable('setData', results);
           eventTableData = values;
         } else {
           for (var key in values) {
             eventTableData[key] = values[key];
           }
+          eventTable.MPTable('setData', eventTableData);
         }
       };
       
