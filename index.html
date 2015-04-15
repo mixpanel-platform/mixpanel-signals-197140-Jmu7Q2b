@@ -62,10 +62,8 @@
             dateRange = dateSelect.MPDatepicker('value');
         if (eventName) {
           MP.api.segment(eventName, dateRange).done(function(results) {
-            console.log(results.values());
-            eventTable.MPTable('setData', results);
+            renderTable(results);
           });
-          console.log(eventTable);
         }
       };
       
