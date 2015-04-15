@@ -10,7 +10,7 @@
     <div class="mixpanel-platform-section">
       <div id="eventSelect" style="float: left;" class="eSel"></div>
       <!--<div id="by" class="mixpanel-platform-label" style="margin-left: 10px; display: none;">by</div>-->
-      <!--<div id="add_event_button" class="" style="margin-left: 10px;">Add Event</div>-->
+      <div id="add_event_button" class="" style="margin-left: 10px;">Add Event</div>
       <!--<div id="propSelect" style="float: left;"></div>-->
       <div id="dateSelect" style="float: right;"></div>
       <!--<div id="eventSelect2" style="float: left; clear: both;" class="eSel"></div>-->
@@ -29,8 +29,17 @@
         firstColHeader: 'Event'
       });
 
+      var eventSelectHandler = function(e, eventName) {
+        // propSelect.MPPropertySelect('setEvent', eventName);
+        $("#by").show();
+        runQuery();
+      };
+
       var createEventSelect = function() {
-        
+        var num = $('.eSel').length + 1;
+        var id = 'eventSelect' + num;
+        var eventSelect = $('#eventSelect').clone().attr('id', id);
+        eventSelect.on('change', eventSelectHandler);
       };
   
       var runQuery = function() {
@@ -47,16 +56,13 @@
           });
         }
       };
+
       
-      for (var eSel in $('.eSel')) {
-        eSel.on('change', function(e, eventName) {
-          // propSelect.MPPropertySelect('setEvent', eventName);
-          $("#by").show();
-          runQuery();
-        });
-      }
+      // for (var eSel in $('.eSel')) {
+      //   eSel.on('change', eventSelectHandler);
+      // }
       
-      $('#eventSelect2').on('change', function(e, eventName) {
+      $('#add_event_button').click(function() {
         createEventSelect();
       });
       
