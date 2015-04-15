@@ -9,11 +9,11 @@
   <body class="mixpanel-platform-body">
     <div class="mixpanel-platform-section">
       <div id="eventSelect" style="float: left;" class="eSel"></div>
-      <div id="eventSelect2" style="float: left; clear: both;" class="eSel"></div>
       <!--<div id="by" class="mixpanel-platform-label" style="margin-left: 10px; display: none;">by</div>-->
       <!--<div id="add_event_button" class="" style="margin-left: 10px;">Add Event</div>-->
       <!--<div id="propSelect" style="float: left;"></div>-->
       <div id="dateSelect" style="float: right;"></div>
+      <!--<div id="eventSelect2" style="float: left; clear: both;" class="eSel"></div>-->
       <div style="clear: both;"></div>
       <div id="graph"></div>
     </div>
@@ -29,18 +29,10 @@
         firstColHeader: 'Event'
       });
 
-      // var formatData = function(results) {
-      //   data = {};
-      //   for (var event in results) {
-      //     for (var date in results[event]) {
-      //       data[date] = {};
-      //       data[date][event] = results[event][date];
-      //     }
-      //   }
-      //   console.log(data)
-      //   return MP.Data.inst(data);
-      // }
-
+      var createEventSelect = function() {
+        
+      };
+  
       var runQuery = function() {
         var eventName = eventSelect.MPEventSelect('value'),
             // propName  = propSelect.MPPropertySelect('value'),
@@ -58,21 +50,18 @@
       
       for (var eSel in $('.eSel')) {
         eSel.on('change', function(e, eventName) {
+          // propSelect.MPPropertySelect('setEvent', eventName);
           $("#by").show();
           runQuery();
         });
       }
       
-      // eventSelect.on('change', function(e, eventName) {
-        // propSelect.MPPropertySelect('setEvent', eventName);
-        // $("#by").show();
-        // runQuery();
-      // });
+      $('#eventSelect2').on('change', function(e, eventName) {
+        createEventSelect();
+      });
+      
       // propSelect.on('change', runQuery);
       dateSelect.on('change', runQuery);
-      $('#add_event_button').click(function () {
-        
-      });
     </script>
   </body>
 </html>
