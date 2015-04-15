@@ -1,0 +1,34 @@
+.add-event-button {
+	width: 152px;
+	float: left;
+	/*margin: 0 30px;*/
+	background-color: #f6f7f9;
+	background-image: -webkit-linear-gradient(top, #f9fafb, #f2f3f6);
+	border-radius: 3px;
+	-webkit-user-select: none;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	border: 1px solid #bdc7d2;
+	color: #747d94;
+	cursor: default;
+	font-size: 13px;
+	font-weight: bold;
+	height: 15px;
+	min-width: 150px;
+	padding: 6px 35px 10px 11px;
+}
+
+.add-event-button:hover {
+	background-color: #f8f8fa;
+	background-image: -moz-linear-gradient(top, #fcfcfc, #f1f3f6);
+	background-image: -ms-linear-gradient(top, #fcfcfc, #f1f3f6);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fcfcfc), to(#f1f3f6));
+	background-image: -webkit-linear-gradient(top, #fcfcfc, #f1f3f6);
+	background-image: -o-linear-gradient(top, #fcfcfc 0, #f1f3f6 0);
+	background-image: linear-gradient(top, #fcfcfc 0, #f1f3f6 0);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcfcfc', endColorstr='#f1f3f6', GradientType=0);
+	border: 1px solid #5ba7e1;
+	border-color: #5ba7e1;
+}
