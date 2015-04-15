@@ -48,11 +48,10 @@
             dateRange = dateSelect.MPDatepicker('value');
         if (eventName) {
           MP.api.segment(eventName, dateRange).done(function(results) {
-            // eventGraph.MPChart('setData', results);
-            // formattedData = formatData(results.values());
             console.log(results.values());
             eventTable.MPTable('setData', results);
           });
+          console.log(eventTable);
         }
       };
       
