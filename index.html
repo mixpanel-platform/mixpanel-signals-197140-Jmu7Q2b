@@ -39,6 +39,7 @@
         var id = 'eventSelect' + num;
         var eventSelect = $('#eventSelect').clone().attr('id', id);
         eventSelect.on('change', eventSelectHandler);
+        eventSelect.MPEventSelect();
         eventSelect.insertBefore($('#clearBoth'));
       };
   
