@@ -31,7 +31,7 @@
         for (var event in results) {
           
         }
-        return data;
+        return MP.Data.inst(data);
       }
 
       var runQuery = function() {
@@ -42,8 +42,8 @@
         if (eventName) {
           MP.api.segment(eventName, dateRange).done(function(results) {
             // eventGraph.MPChart('setData', results);
-            formattedData = formatData(results);
-            console.log(results);
+            formattedData = formatData(results.values());
+            console.log(results.values());
             eventTable.MPTable('setData', results);
           });
         }
