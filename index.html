@@ -51,9 +51,9 @@
           for (var key in values) {
             eventTableData[key] = values[key];
           }
-          eventTable.MPTable('setData', eventTableData);
-          console.log(eventTableData);
         }
+        console.log(eventTableData);
+        eventTable.MPTable('setData', eventTableData);
       };
       
       var runQuery = function(eventSelect) {
