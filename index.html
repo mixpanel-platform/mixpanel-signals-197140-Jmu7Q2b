@@ -14,13 +14,12 @@
       <!--<div id="propSelect" style="float: left;"></div>-->
       <div id="dateSelect" style="float: right;"></div>
       <!--<div id="eventSelect2" style="float: left; clear: both;" class="eSel"></div>-->
-      <div style="clear: both;"></div>
+      <div style="clear: both;" id="clearBoth"></div>
       <div id="graph"></div>
     </div>
     <div id="table"></div>
     <script>
       var eventSelect = $('#eventSelect').MPEventSelect();
-      var eventSelect2 = $('#eventSelect2').MPEventSelect();
       // var propSelect  = $('#propSelect').MPPropertySelect();
       var dateSelect  = $('#dateSelect').MPDatepicker();
       var eventGraph  = $('#graph').MPChart({chartType: 'line'});
@@ -40,6 +39,7 @@
         var id = 'eventSelect' + num;
         var eventSelect = $('#eventSelect').clone().attr('id', id);
         eventSelect.on('change', eventSelectHandler);
+        eventSelect.before($('#clearBoth'));
       };
   
       var runQuery = function() {
@@ -68,6 +68,7 @@
       
       // propSelect.on('change', runQuery);
       dateSelect.on('change', runQuery);
+      eventSelect.on('change', eventSelectHandler);
     </script>
   </body>
 </html>
