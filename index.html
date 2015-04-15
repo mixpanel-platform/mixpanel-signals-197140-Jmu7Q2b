@@ -8,8 +8,10 @@
   </head>
   <body class="mixpanel-platform-body">
     <div class="mixpanel-platform-section">
-      <div id="eventSelect" style="float: left;"></div>
+      <div id="eventSelect" style="float: left;" class="eSel"></div>
+      <div id="eventSelect2" style="float: left; clear: both;" class="eSel"></div>
       <!--<div id="by" class="mixpanel-platform-label" style="margin-left: 10px; display: none;">by</div>-->
+      <!--<div id="add_event_button" class="" style="margin-left: 10px;">Add Event</div>-->
       <!--<div id="propSelect" style="float: left;"></div>-->
       <div id="dateSelect" style="float: right;"></div>
       <div style="clear: both;"></div>
@@ -18,6 +20,7 @@
     <div id="table"></div>
     <script>
       var eventSelect = $('#eventSelect').MPEventSelect();
+      var eventSelect2 = $('#eventSelect2').MPEventSelect();
       // var propSelect  = $('#propSelect').MPPropertySelect();
       var dateSelect  = $('#dateSelect').MPDatepicker();
       var eventGraph  = $('#graph').MPChart({chartType: 'line'});
@@ -26,13 +29,17 @@
         firstColHeader: 'Event'
       });
 
-      var formatData = function(results) {
-        data = {};
-        for (var event in results) {
-          
-        }
-        return MP.Data.inst(data);
-      }
+      // var formatData = function(results) {
+      //   data = {};
+      //   for (var event in results) {
+      //     for (var date in results[event]) {
+      //       data[date] = {};
+      //       data[date][event] = results[event][date];
+      //     }
+      //   }
+      //   console.log(data)
+      //   return MP.Data.inst(data);
+      // }
 
       var runQuery = function() {
         var eventName = eventSelect.MPEventSelect('value'),
@@ -42,19 +49,30 @@
         if (eventName) {
           MP.api.segment(eventName, dateRange).done(function(results) {
             // eventGraph.MPChart('setData', results);
-            formattedData = formatData(results.values());
+            // formattedData = formatData(results.values());
             console.log(results.values());
             eventTable.MPTable('setData', results);
           });
         }
       };
-      eventSelect.on('change', function(e, eventName) {
+      
+      for (var eSel in $('.eSel')) {
+        eSel.on('change', function(e, eventName) {
+          $("#by").show();
+          runQuery();
+        });
+      }
+      
+      // eventSelect.on('change', function(e, eventName) {
         // propSelect.MPPropertySelect('setEvent', eventName);
-        $("#by").show();
-        runQuery();
-      });
+        // $("#by").show();
+        // runQuery();
+      // });
       // propSelect.on('change', runQuery);
       dateSelect.on('change', runQuery);
+      $('#add_event_button').click(function () {
+        
+      });
     </script>
   </body>
 </html>
