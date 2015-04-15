@@ -30,8 +30,7 @@
       var eventSelectHandler = function(e, eventName) {
         // propSelect.MPPropertySelect('setEvent', eventName);
         $("#by").show();
-        console.log(e.target);
-        runQuery();
+        runQuery($(e.target));
       };
 
       var createEventSelect = function() {
