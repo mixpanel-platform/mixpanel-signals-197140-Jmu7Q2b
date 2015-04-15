@@ -30,6 +30,7 @@
       var eventSelectHandler = function(e, eventName) {
         // propSelect.MPPropertySelect('setEvent', eventName);
         $("#by").show();
+        console.log(e.target);
         runQuery();
       };
 
@@ -42,11 +43,10 @@
         eventSelect.insertBefore($('#clearBoth'));
       };
   
-      var runQuery = function() {
+      var runQuery = function(eventSelect) {
         var eventName = eventSelect.MPEventSelect('value'),
             // propName  = propSelect.MPPropertySelect('value'),
             dateRange = dateSelect.MPDatepicker('value');
-
         if (eventName) {
           MP.api.segment(eventName, dateRange).done(function(results) {
             // eventGraph.MPChart('setData', results);
