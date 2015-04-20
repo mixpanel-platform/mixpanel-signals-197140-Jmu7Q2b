@@ -84,8 +84,8 @@
       var runQuery = function(eventSelect) {
         var eventName = eventSelect.MPEventSelect('value'),
             // propName  = propSelect.MPPropertySelect('value'),
-            dateRange = dateSelect.MPDatepicker('value');
-            params = _.extend(dateRange, dateResolution.val())
+            dateRange = dateSelect.MPDatepicker('value'),
+            params = _.extend(dateRange, dateResolution.val());
         if (eventName) {
           MP.api.segment(eventName, params).done(function(results) {
             renderTable(results);
