@@ -14,14 +14,31 @@
       <!--<div id="propSelect" style="float: left;"></div>-->
       <div id="dateSelect" style="float: right;"></div>
       <div id="eventSelect" style="float: left; clear: both;" class="eSel"></div>
+      <div id="dateResolution" style="float: right;"></div>
       <div style="clear: both;" id="clearBoth"></div>
       <div id="graph"></div>
     </div>
     <div id="table"></div>
     <script>
+      /**
+       * TODO: Add feature for selecting properties
+       * 
+       * Written by Addison Huff - addison@mixpanel.com
+       */
+    
+      // Initialize mixpanel jQuery elements
       var eventSelect = $('#eventSelect').MPEventSelect();
       // var propSelect  = $('#propSelect').MPPropertySelect();
       var dateSelect  = $('#dateSelect').MPDatepicker();
+      var dateResolution = $('#dateResolution').MPSelect({
+        items: [
+          { label: 'Minute', value: 'minute' },
+          { label: 'Hour', value: 'hour' },
+          { label: 'Day', value: 'day' },
+          { label: 'Week', value: 'week' },
+          { label: 'Month', value: 'month' }
+        ]
+      });
       var eventGraph  = $('#graph').MPChart({chartType: 'line'});
       var eventTable  = $('#table').MPTable({
         showPercentages: true,
@@ -29,12 +46,14 @@
       });
       var eventTableData;
 
+      // This is run when an event is selected
       var eventSelectHandler = function(e, eventName) {
         // propSelect.MPPropertySelect('setEvent', eventName);
         $("#by").show();
         runQuery($(e.target));
       };
 
+      // Invoked when the "Add Another Event" button is clicked
       var createEventSelect = function() {
         var num = $('.eSel').length + 1;
         var id = 'eventSelect' + num;
@@ -44,6 +63,10 @@
         eventSelect.insertBefore($('#clearBoth'));
       };
       
+      /**
+       * Update MPTable with new data or initial data
+       * @var eventTableData is a stateful object representing the data to be visualized.
+       */ 
       var renderTable = function(results) {
         values = results.values();
         if (typeof eventTableData === 'undefined') {
