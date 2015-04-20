@@ -85,6 +85,7 @@
         var eventName = eventSelect.MPEventSelect('value');
         // var propName  = propSelect.MPPropertySelect('value');
         var dateRange = dateSelect.MPDatepicker('value');
+        console.log(dateResolution.val());
         var params = _.extend(dateRange, dateResolution.val());
         if (eventName) {
           MP.api.segment(eventName, params).done(function(results) {
