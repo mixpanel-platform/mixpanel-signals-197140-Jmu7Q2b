@@ -39,6 +39,7 @@
           { label: 'Month', value: 'month' }
         ]
       });
+      dateResolution.val('day');
       var eventGraph  = $('#graph').MPChart({chartType: 'line'});
       var eventTable  = $('#table').MPTable({
         showPercentages: true,
@@ -84,8 +85,9 @@
         var eventName = eventSelect.MPEventSelect('value'),
             // propName  = propSelect.MPPropertySelect('value'),
             dateRange = dateSelect.MPDatepicker('value');
+            params = _.extend(dateRange, dateResolution.val())
         if (eventName) {
-          MP.api.segment(eventName, dateRange).done(function(results) {
+          MP.api.segment(eventName, params).done(function(results) {
             renderTable(results);
           });
         }
