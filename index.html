@@ -31,6 +31,7 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
        *      the "eventTableData" global variable and re-run each MP.api query.
        * 
        * Written by Addison Huff - addison@mixpanel.com
+       * Updated 4/5/15
        */
     
       // Initialize mixpanel jQuery elements
@@ -49,19 +50,20 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
       dateResolution.val('day');
       var eventGraph  = $('#graph').MPChart({chartType: 'line'});
       var eventTable  = $('#table').MPTable({
-        showPercentages: true,
-        firstColHeader: 'Event'
+        showPercentages: false,
+        firstColHeader: 'Date'
       });
       var eventTableData;
 
-      // This is run when an event is selected
+      // This is run when an event is selected from the dropdown.
       var eventSelectHandler = function(e, eventName) {
         // propSelect.MPPropertySelect('setEvent', eventName);
         $("#by").show();
         runQuery($(e.target));
       };
 
-      // Invoked when the "Add Another Event" button is clicked
+      // Invoked when the "Add Another Event" button is clicked. Creates another eventSelector menu
+      // and appends the proper event listeners.
       var createEventSelect = function() {
         var num = $('.eSel').length + 1;
         var id = 'eventSelect' + num;
@@ -69,6 +71,60 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
         eventSelect.on('change', eventSelectHandler);
         eventSelect.MPEventSelect();
         eventSelect.insertBefore($('#clearBoth'));
+      };
+      
+      // This is used to make the chart vertical, as opposed to the horizontal default.
+      var transformData = function(data) {
+        /** Rotate the data, e.g.
+         * Before:
+           {
+            	Activated: {
+            		2015-04-05: 371,
+            		2015-04-06: 1093,
+            	}, 
+            	Apple Mail - Validating Session: {
+            		2015-04-05: 1924,
+            		2015-04-06: 3882,
+            	}
+            }
+         * After:
+           {
+            	2015-04-05: {
+            		Activated: 371,
+            		Apple Mail - Validating Session: 1924,
+            	}, 
+            	2015-04-06: {
+            		Activated: 1093,
+            		Apple Mail - Validating Session: 1227,
+            }
+         */
+        output = {};
+        for (var event in data) {
+          console.log(event);
+          for (var date in data[event]) {
+            if (date in output) {
+              output[date][event] = data[event][date]  ;
+            } else {
+              output[date] = {};
+              output[date][event] = data[event][date];
+            }
+          }
+        }
+        
+        // Sort the data. First use an array to sort the dates (descending), then re-create an object
+        // using that array as its keys.
+        var keys = _.keys(output);
+        keys.sort(function(a,b){
+          // Turn your strings into dates, and then subtract them
+          // to get a value that is either negative, positive, or zero.
+          return new Date(a) - new Date(b);
+        });
+        var sorted = {};
+        _.each(keys, function(date) {
+          // Move over the nested object
+          sorted[date] = output[date];
+        });
+        return sorted;
       };
       
       /**
@@ -84,8 +140,12 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
             eventTableData[key] = values[key];
           }
         }
+        console.log('before');
         console.log(eventTableData);
-        eventTable.MPTable('setData', eventTableData);
+        var rotatedData = transformData(eventTableData);
+        console.log('after');
+        console.log(rotatedData);
+        eventTable.MPTable('setData', rotatedData);
       };
       
       /**
@@ -109,6 +169,8 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
       });
       
       // propSelect.on('change', runQuery);
+      
+      // Start here!
       dateSelect.on('change', runQuery);
       eventSelect.on('change', eventSelectHandler);
     </script>
