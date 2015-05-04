@@ -129,19 +129,6 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
         });
         return sorted;
       };
-      
-      // This could probably be cleaner
-      var findChangeColor = function(percentChange) {
-        if (percentChange < -50) {
-
-        } else if (percentChange >= -50 && percentChange < 0) {
-
-        } else if (percentChange >= 0 && percentChange < 50) {
-
-        } else {
-
-        }
-      };
 
       var applyCss = function(eventTableData) {
         var headers = _.keys(eventTableData);
