@@ -130,6 +130,10 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
         return sorted;
       };
 
+      function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+
       var applyCss = function(eventTableData) {
         var headers = _.keys(eventTableData);
         var previousValues = [];
@@ -143,7 +147,6 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
           } else {
             console.log(cell);
             if (previousValues[columnIndex]) {
-              console.log('hello');
               var newValue = parseInt($(cell).first().text())
               var change = ((newValue - previousValues[columnIndex]) / previousValues[columnIndex] * 100).round(1);
               console.log(change);
@@ -154,11 +157,14 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
               } else {
                 $(cell).append('<span class="percent">' + change + '%</span>');
               }
+              $(cell).children('span:first').text(numberWithCommas(newValue));
               previousValues[columnIndex] = newValue;
               columnIndex += 1;
             } else {
-              console.log('test');
-              previousValues[columnIndex] = parseInt($(cell).first().text());
+              var value = $(cell).children('span:first').text();
+              console.log(value);
+              previousValues[columnIndex] = parseInt(value);
+              $(cell).children('span:first').text(numberWithCommas(value));
               columnIndex += 1;
             }
           }
