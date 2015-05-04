@@ -161,11 +161,11 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
               var change = ((newValue - previousValues[columnIndex]) / previousValues[columnIndex] * 100).round(1);
               console.log(change);
               if (change > 0) {
-                $(cell).append('<span class="percent pos">' + change + '</span>');
+                $(cell).append('<span class="percent pos">' + change + '%</span>');
               } else if (change < 0 ) {
-                $(cell).append('<span class="percent neg">' + change + '</span>');
+                $(cell).append('<span class="percent neg">' + change + '%</span>');
               } else {
-                $(cell).append('<span class="percent">' + change + '</span>');
+                $(cell).append('<span class="percent">' + change + '%</span>');
               }
               previousValues[columnIndex] = newValue;
               columnIndex += 1;
