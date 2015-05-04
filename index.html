@@ -55,6 +55,10 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
       });
       var eventTableData;
 
+      Number.prototype.round = function(places) {
+        return +(Math.round(this + "e+" + places)  + "e-" + places);
+      }
+
       // This is run when an event is selected from the dropdown.
       var eventSelectHandler = function(e, eventName) {
         // propSelect.MPPropertySelect('setEvent', eventName);
@@ -100,7 +104,6 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
          */
         output = {};
         for (var event in data) {
-          console.log(event);
           for (var date in data[event]) {
             if (date in output) {
               output[date][event] = data[event][date]  ;
@@ -127,6 +130,55 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
         return sorted;
       };
       
+      // This could probably be cleaner
+      var findChangeColor = function(percentChange) {
+        if (percentChange < -50) {
+
+        } else if (percentChange >= -50 && percentChange < 0) {
+
+        } else if (percentChange >= 0 && percentChange < 50) {
+
+        } else {
+
+        }
+      };
+
+      var applyCss = function(eventTableData) {
+        var headers = _.keys(eventTableData);
+        var previousValues = [];
+        var lastHeader = ''; // Used for tracking differences
+        var columnIndex = 0;
+        _.each($('.mp_chart_cell'), function(cell) {
+          if ($(cell).parent().hasClass('mp_chart_header')) {
+            // Pass
+          } else if ($(cell).hasClass('mp_chart_row_label')) {
+            columnIndex = 0;
+          } else {
+            console.log(cell);
+            if (previousValues[columnIndex]) {
+              console.log('hello');
+              var newValue = parseInt($(cell).first().text())
+              var change = ((newValue - previousValues[columnIndex]) / previousValues[columnIndex] * 100).round(1);
+              console.log(change);
+              if (change > 0) {
+                $(cell).append('<span class="percent pos">' + change + '</span>');
+              } else if (change < 0 ) {
+                $(cell).append('<span class="percent neg">' + change + '</span>');
+              } else {
+                $(cell).append('<span class="percent">' + change + '</span>');
+              }
+              previousValues[columnIndex] = newValue;
+              columnIndex += 1;
+            } else {
+              console.log('test');
+              previousValues[columnIndex] = parseInt($(cell).first().text());
+              columnIndex += 1;
+            }
+          }
+          console.log(columnIndex);
+        });
+      };
+
       /**
        * Update MPTable with new data or initial data
        * @var eventTableData is a stateful object representing the data to be visualized.
@@ -140,12 +192,9 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
             eventTableData[key] = values[key];
           }
         }
-        console.log('before');
-        console.log(eventTableData);
         var rotatedData = transformData(eventTableData);
-        console.log('after');
-        console.log(rotatedData);
         eventTable.MPTable('setData', rotatedData);
+        applyCss(eventTableData);
       };
       
       /**

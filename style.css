@@ -32,3 +32,7 @@
 	border: 1px solid #5ba7e1;
 	border-color: #5ba7e1;
 }
+
+.mp_chart_cell {
+	min-width: 94px;
+}
