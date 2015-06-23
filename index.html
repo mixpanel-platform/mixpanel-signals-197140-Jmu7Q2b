@@ -318,7 +318,7 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
        */ 
       function renderTable(results, pastData) {
         values = results.values();
-        pastValues = pastData ? pastData.values() : {};
+        pastValues = pastValues ? _.extend(pastValues, pastData.values()) : pastData.values();
         console.log(pastValues);
         if (dateComparison.val() && typeof percentChangeValues === 'undefined') {
           percentChangeValues = comparisonChange(values, pastValues);
