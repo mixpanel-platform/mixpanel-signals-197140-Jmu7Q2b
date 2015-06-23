@@ -111,6 +111,7 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
           { label: 'Average', value: 'average' }
         ]
       });
+      queryType.val('general');
       var eventGraph  = $('#graph').MPChart({chartType: 'line'});
       var eventTable  = $('#table').MPTable({
         showPercentages: false,
@@ -197,7 +198,11 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
       };
 
       function numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        var val = x;
+        if (queryType.val() === 'average') {
+          val = x.round(2);
+        }
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       };
 
       function comparisonChange(data, pastData) {
@@ -276,7 +281,6 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
 
       function pastRawValue(eventNames, columnIndex, date) {
         var pastDate = moment(date).subtract(1, dateComparison.val()).format('YYYY-MM-DD');
-        console.log(pastValues)
         var pastValue = numberWithCommas(pastValues[eventNames[columnIndex+1]][pastDate]);
         var pastElement = $('<span class="content2">' + pastValue + '</span>');
         return pastElement;
@@ -296,12 +300,11 @@ Visit the report from the sidebar dropdown instead of clicking "RUN" -->
             columnIndex = 0;
             date = $(cell).children('span:first').text();
           } else {
-            var newValue = parseInt($(cell).first().text());
+            var newValue = parseFloat($(cell).first().text());
             var change = applyCss(newValue, columnIndex, eventNames, date, percentChangeValues);
             $(cell).append(change.percentElement);
             $(cell).css('background-color', change.color);
             $(cell).children('span:first').text(numberWithCommas(newValue));
-            console.log(pastValues[eventNames[columnIndex+1]][date])
             var previousElement = pastRawValue(eventNames, columnIndex, date);
             $(cell).prepend(previousElement);
             columnIndex += 1;
